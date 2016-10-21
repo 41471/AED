@@ -1,0 +1,47 @@
+private static int findLowerWord(String[] array) {
+
+        int lowerWord = -1;
+        boolean first = true;
+
+        for (int i = 0; i < array.length; i++) {
+
+            if ( array[i] != null && !first && array[i].compareTo(array[lowerWord]) < 0) {
+
+                lowerWord = i;
+            }
+
+            if (first && array[i] != null) {
+                lowerWord = i;
+                first = false;
+            }
+        }
+
+        return lowerWord;
+    }
+    private static void insertInArray( int[] count, String[] str_array_max, String[] lines, int currentCount, int idxOfLines ) {
+
+        int auxInt;
+        String auxString;
+        int i;
+
+        count[count.length - 1] = currentCount;
+
+        if (count[MAXWORD - 1] < count[MAXWORD])
+            count[MAXWORD - 1] = count[MAXWORD];
+
+        for (i = MAXWORD - 2; i >= 0; i--) {
+
+            if (count[i] < count[i + 1]) {
+                auxInt = count[i];
+                auxString = str_array_max[i];
+
+                count[i] = count[i + 1];
+                str_array_max[i] = str_array_max[i + 1];
+
+                count[i + 1] = auxInt;
+                str_array_max[i + 2] = auxString;
+            } else break;
+
+        }
+        str_array_max[i] = lines[idxOfLines];
+    }
