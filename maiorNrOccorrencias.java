@@ -15,26 +15,26 @@ public class maiorNrOccorrencias {
 
 
     public static void main(String[] args) {
-        BufferedReader[] br1,br2,br3;
-        String line1,line2,line3;
+        BufferedReader[] br1;
+        String[] array_file = {"f1.txt","f2.txt","f3.txt"};
+        String[] lines = new String[NUMBERFILE];
         String[] str_array_max = new String[MAXWORD];
         int[] count = new int[MAXWORD];
         int index=0,currentCount=0;
         try {
             br1= new BufferedReader[NUMBERFILE];
             for (int i = 0; i < NUMBERFILE-1; i++) {
-                br1[i] = new BufferedReader(new FileReader("f1.txt"));
+                br1[i] = new BufferedReader(new FileReader(array_file[i]));
             }
-//            (new FileReader("f1.txt"));
-//            br2= new BufferedReader(new FileReader("f2.txt"));
-//            br3= new BufferedReader(new FileReader("f3.txt"));
-            line1 = br1.readLine();
-            line2 = br1.readLine();
-            line3 = br1.readLine();
+
+            for (int i = 0; i < NUMBERFILE-1; i++) {
+                lines[i]=br1[i].readLine();
+            }
             while(true){
-                if(br1==null&&br2==null&&br3==null)
-                    break;
-            if(line1.charAt(0)>)
+
+                for (int i = 0; i < NUMBERFILE-1; i++) {
+
+                }
 
 
             }
@@ -45,8 +45,8 @@ public class maiorNrOccorrencias {
 
     }
 
-    public static void findLowerWord(){
-
+    public static int findLowerWord(){
+        return -1;
     }
 
 
