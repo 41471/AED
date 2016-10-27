@@ -1,3 +1,15 @@
+ public static void main(String[] args) {
+        int[] array1 = { 8, 100, 9, 4, 14, 13, 22, 6, 20};
+        int[] array2 = new int[array1.length];
+        //mergeSort(array1, 0, array1.length - 1);
+
+        System.out.println(java.util.Arrays.toString(array1));
+        //System.out.println(java.util.Arrays.toString((countingSort(array1, array2, 22))));
+
+        countingSort(array1,array2,100);
+    }
+ 
+ 
  public static int[] countingSort( int[] A, int[] B, int k ) {
 
         int[] count = new int[ k + 1 ];
