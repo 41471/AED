@@ -1,3 +1,32 @@
+ public static int[] countingSort( int[] A, int[] B, int k ) {
+
+        int[] count = new int[ k + 1 ];
+
+        for (int i = 0; i <= k; i++) {
+            count[i] = 0;
+        }
+
+        for (int i = 1; i < A.length; i++) {
+            count[A[i]]++;
+        }
+        //System.out.println( "count" + java.util.Arrays.toString(count));
+
+        for (int i = 1; i <= k; i++){
+            count[i] += count[i-1];
+        }
+        //System.out.println( "count1" + java.util.Arrays.toString(count));
+
+
+        for (int i = A.length-1; i >= 0 ; i--) {
+            B[count[A[i]]] = A[i];
+            count[A[i]]--;
+        }
+        System.out.println( "B" + java.util.Arrays.toString(B));
+
+        return B;
+    }
+
+
 private static int findLowerWord(String[] array) {
 
         int lowerWord = -1;
