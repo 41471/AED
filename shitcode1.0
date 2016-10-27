@@ -1,0 +1,89 @@
+public static int NUM_PARCELS = 4;
+
+    public static void sortIPv4Addresses(String[] v, int l, int r) {
+
+        int[][] ip_array = new int[NUM_PARCELS][r - l + 1];
+        String[] str_aux;
+        int[] i_array = new int[r - l + 1];
+
+        for (int i = l; i <= r; i++) {
+            str_aux = v[i].split("[.]");
+            for (int j = 0; j < NUM_PARCELS; j++) {
+                ip_array[j][i - l] = Integer.parseInt(str_aux[j]);
+
+            }
+        }
+
+
+        for (int i = NUM_PARCELS - 1; i >= 0; i--) {
+            i_array = sort(ip_array[i], l, r);
+
+        }
+        swap(v, i_array);
+        for (int i = 0; i < v.length; i++) {
+            System.out.print(v[i] + " ");
+        }
+
+    }
+
+
+    public static void main(String[] args) {
+
+
+        String[] st = {"192.168.1.255", "80.168.1.249","90.222.222.222","192.168.1.254"};
+        sortIPv4Addresses(st, 0, st.length - 1);
+
+    }
+
+    public static int[] countingSort(int[] A, int[] B, int k, int[] i_array) {
+
+        int[] count = new int[255 + 1];
+
+
+        for (int i = 0; i < A.length; i++) {
+            count[A[i]]++;
+        }
+
+        //System.out.println( "count" + java.util.Arrays.toString(count));
+
+        for (int i = 1; i < k; i++) {
+            count[i] += count[i - 1];
+        }
+
+        // System.out.println( "count1" + java.util.Arrays.toString(count));
+
+
+        for (int i = A.length - 1; i >= 0; i--) {
+
+            B[--count[A[i]]] = A[i];
+            i_array[A.length - 1 - i] = count[A[i]];
+
+        }
+
+        //System.out.println( "B" + java.util.Arrays.toString(B));
+
+        return i_array;
+    }
+
+    public static int[] sort(int[] input, int l, int r) {
+        int[] out = new int[input.length];
+        int[] i_array = new int[r-l + 1];
+
+        for (int place = 1; place <= 100; place *= 10) {
+
+            i_array = countingSort(input, out, place, i_array);
+        }
+
+        System.out.println(java.util.Arrays.toString(input));
+
+        return i_array;
+    }
+
+    public static void swap(String[] v, int[] i_array) {
+        String aux;
+        for (int i = 0; i < i_array.length; i++) {
+            aux = v[i];
+            v[i] = v[i_array[i]];
+            v[i_array[i]] = aux;
+        }
+    }
