@@ -175,11 +175,15 @@ public class Arrays {
     /************************************* EX4 *************************************************/
 
     public static void sortIPv4Addresses(String[] v, int l, int r) {
-        fillWithZeros(v);
+        fillWithZeros(v, l, r);
         int n = v.length;
         String[] aux = new String[n];
         sort(v, l, r, 0, aux);
 
+        System.out.println(java.util.Arrays.toString(v));
+        for (int i = l; i <= r; i++) {
+           v[i] = removeLeadingZeros(v[i]);
+        }
     }
 
     // return dth character of s, -1 if d = length of string
@@ -250,11 +254,11 @@ public class Arrays {
         return v.length() < w.length();
     }
 
-    private static void fillWithZeros(String[] st) {
+    private static void fillWithZeros(String[] st, int l, int r) {
 
         int val;
         String[] aux;
-        for (int i = 0; i < st.length; i++) {
+        for (int i = l; i <= r; i++) {
             aux = st[i].split("[.]");
 
             for (int j = 0; j < aux.length; j++) {
@@ -266,19 +270,31 @@ public class Arrays {
 
                 if (j == 0)
                     st[i] = aux[0];
-
-                st[i] += "." + aux[j];
+                else
+                    st[i] += "." + aux[j];
             }
         }
     }
 
+    private static String removeLeadingZeros(String str) {
+        String[] aux ;
 
-
+        aux = str.split("[.]");
+        str = "";
+        int i;
+        for (i = 0; i < aux.length - 1 ; i++) {
+            str += Integer.parseInt(aux[i]) + ".";
+        }
+        return str + Integer.parseInt(aux[i]);
+    }
 
 
     public static void main(String[] args) {
 
         String[] st = {"192.168.1.255", "80.168.1.249", "90.222.222.222", "192.168.1.249" };
+        System.out.println(java.util.Arrays.toString(st));
         sortIPv4Addresses( st, 0, st.length-1);
+
+        System.out.println(java.util.Arrays.toString(st));
     }
 }
