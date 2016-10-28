@@ -1,6 +1,7 @@
 package series.serie1;
 
 import java.io.*;
+import java.sql.Time;
 
 /**
  * Created by Pedro on 20/10/2016.
@@ -24,6 +25,7 @@ public class maiorNrOccorrencias {
         NUMBERFILE = args.length-2;
         lines = new String[NUMBERFILE];
         array_file=new String[NUMBERFILE+1];
+        long time = System.currentTimeMillis();
         for (int i = 2; i < args.length; i++) {
             array_file[i-2]=args[i];
         }
@@ -82,7 +84,7 @@ public class maiorNrOccorrencias {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        System.out.println(System.currentTimeMillis()-time);
     }
 
     private static int stringToInt(String arg) {
