@@ -95,40 +95,46 @@ public class ListUtils<E> {
 
 	public static Node<Node<String>> splitBySentence(Node<String> list) {
 		Node<Node<String>> frases = new Node<>();
-		Node currW = new Node();
 		Node headList = list;
+		Node<Node<String>> last=new Node<>();
+		Node<Node<String>> currW=last;
 		frases.previous = frases.next = frases;
+		boolean first=true;
 		if(list.next==list.previous ) {
 			return frases;
 		}
 
+
 		for (;list.next!=headList;){
-			if(list.next.value!="."&&list.next.value!=null){
+			if(list.next.value!="."){
+				if(first){
+					last=new Node(list.next.remove(),frases);
+					currW=last;
+					first=false;
 
-				currW=copyNode(currW,list.next);
-				currW.previous=null;
-
-				while (currW.next!=null&&currW.next.value!="."){
-					currW=currW.next;
 				}
-				currW.next=null;
-				while(list.next!=null&&list.next.value!="."&&list.next!=headList){
-					list.next.remove();
+				else {
+					last.value.add(list.next.remove());
+					last.value=last.value.next;
 				}
-				frases.addLast(currW,frases);
 			}
 			else {
-				list = list.next;
+					list = list.next;
+					last=currW;
+					//last.next=new Node<>(new Node(),frases);
+					last=last.next;
+					first=true;
+				}
 			}
-		}
 		return frases;
 	}
 
-	public static <E> Node<E> copyNode(Node<E> a, Node<E> b){
-		a.next=b.next;
-		a.previous=b.previous;
-		a.value=b.value;
-		return a;
+	public static <E> Node<E> copyNode(Node<E> b){
+		Node<E> aux = new Node<>();
+		aux.next=b.next;
+		aux.previous=b.previous;
+		aux.value=b.value;
+		return aux;
 	}
 
 
