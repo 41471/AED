@@ -4,42 +4,7 @@ import java.util.Comparator;
 
 public class ListUtils<E> {
 	public static void main(String[] args) {
-//		Node sentinela = new Node(2);
-//		Node a = new Node(5);
-//		Node b = new Node(10);
-//		Node c = new Node (3);
-//		Node d = new Node(8);
-//		Node e = new Node(1);
-//		sentinela.next=a;
-//		a.previous=sentinela;
-//		a.next=b;
-//		b.previous=a;
-//		b.next=c;
-//		c.previous=b;
-//		c.next=d;
-//		d.previous=c;
-//		d.next=e;
-//		e.previous=d;
-//		Comparator<Integer> cmp = new Comparator<Integer>() {
-//			@Override
-//			public int compare(Integer o1, Integer o2) {
-//				return o1.compareTo(o2);
-//			}
-//		};
 
-//		for (int i = 0; i < 5; i++) {
-//			System.out.print(aux.value+" ");
-//			aux=aux.next;
-//		}
-//		System.out.println();
-//
-//		quicksort(a, e, cmp );
-//
-//		aux = a;
-//		for (int i = 0; i < 5; i++) {
-//			System.out.print(aux.value+ " ");
-//			aux=aux.next;
-//		}
 
 
 
@@ -98,9 +63,10 @@ public class ListUtils<E> {
 		Node headList = list;
 		Node<Node<String>> last=new Node<>();
 		Node<Node<String>> currW=last;
+		Node<String> currW2 =null;
 		frases.previous = frases.next = frases;
 		boolean first=true;
-		if(list.next==list.previous ) {
+		if(list.next==list.previous&&list.next==list ) {
 			return frases;
 		}
 
@@ -108,7 +74,10 @@ public class ListUtils<E> {
 		for (;list.next!=headList;){
 			if(list.next.value!="."){
 				if(first){
+
 					last=new Node(list.next.remove(),frases);
+					currW2 = last.value;
+					//currW2=last.value;
 					currW=last;
 					first=false;
 
@@ -119,6 +88,7 @@ public class ListUtils<E> {
 				}
 			}
 			else {
+					last.value=currW2;
 					list = list.next;
 					last=currW;
 					//last.next=new Node<>(new Node(),frases);
@@ -126,6 +96,7 @@ public class ListUtils<E> {
 					first=true;
 				}
 			}
+		last.value=currW2;
 		return frases;
 	}
 
