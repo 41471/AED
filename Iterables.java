@@ -1,141 +1,94 @@
 package series.serie2;
 
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Iterables<E> {
 
-	public static Iterable<Integer> src;
-
-
 	public static <T> Iterable<T> flatten(final Iterable<Iterable<T>> src) {
 
 		return () -> new Iterator<T>() {
-			boolean end = false;
-			boolean consumed = true;
-			T element;
-			boolean first = true;
-			boolean proximo = false;
-			int count = 0;
-			int currI = 0;
-			Iterator<Iterable<T>> it = src.iterator();
 
-			Iterator<T> it1;
+			T element;
+			Iterator<Iterable<T>> it = src.iterator();
+			Iterator<T> subIt = null;
 
 			@Override
 			public boolean hasNext() {
-
-				if (end)
+				if (it == null)	// se não tiver mais elementos
 					return false;
-				if (consumed) {
-					// Get next element if it exists one
 
-					for (; it.hasNext(); ) {
-						if(first){
-							it1 = it.next().iterator();
-							first=false;
-						}
-						for (; ;) {
-							element = it1.next();
-							if(element==null)break;
-							proximo = true;
-							consumed = false;
+				if (element == null) {	//se foi "consumido" o elemento obtem proximo se tiver
+					while (it.hasNext() || subIt!= null && subIt.hasNext()) {
+						if (subIt != null && subIt.hasNext()) {	//obter o proximo elemento se o sub iterador ainda tiver elementos
+							element = subIt.next();
 							return true;
+						} else {
+							subIt = it.next().iterator();	//caso o sub iterador não tenha elementos obter o prox sub iterador
 						}
-						first=true;
-						it1 = it.next().iterator();
 					}
-					end = true;
-					return false;
+					return false;	//não existem mais elementos
 				} else
-					// Next element exists but it was not consumed yet, so return true
-					return true;
+					return true;	//tem proximo elemento mas ainda não foi "consumido"
 			}
 
 			@Override
 			public T next() {
-				if (!proximo) {
-					if (!hasNext())
-						throw new NoSuchElementException("alternateEvenoOdd: no more elements");
-				}
-				// Set this element to the state 'consumed'
-				consumed = true;
-				// Return element
+				if (!hasNext())
+					throw new NoSuchElementException("Flatten: no more elements");
 
-				return element;
+				T tmp = element;
+				element = null;
+				return tmp;
 			}
 		};
 	}
 
 	public static Iterable<Integer> alternateEvenOdd(final Iterable<Integer> src) {
 
-		Iterable<Integer> aux = () -> new Iterator<Integer>() {
+		return () -> new Iterator<Integer>() {
 
-			boolean end = false;
-			boolean consumed = true;
-			int element;
-			private int prev;
-			boolean first = true;
-			boolean proximo = false;
 			Iterator<Integer> it = src.iterator();
+			Integer element;
+			private int prev;
 
 
 			@Override
 			public boolean hasNext() {
-				if (end) {
-					proximo = false;
+				if (it == null)
 					return false;
-				}
 
-				if (consumed) {
-
+				if (element == null) {
 					while (it.hasNext()) {
 						element = it.next();
-						if (isOdd(element) && test(element, prev)) {
+						if (src.iterator().next().equals(element) && isOdd(element)) {
 							prev = element;
-							first = false;
-							proximo = true;
 							return true;
-						} else {
-							if (test(element, prev) && !first) {
-								consumed = false;
-								prev = element;
-								proximo = true;
-								return true;
-							}
+						} else if (test(element, prev)) {
+							prev = element;
+							return true;
 						}
 					}
-					end = true;
-					proximo = false;
 					return false;
-				} else {
-					proximo = true;
+				} else
 					return true;
-				}
 			}
 
 			@Override
 			public Integer next() {
-				if (!proximo) {
-					if (!hasNext())
-						throw new NoSuchElementException("alternateEvenoOdd: no more elements");
-				}
-				// Set this element to the state 'consumed'
-				consumed = true;
-				// Return element
+				if (!hasNext())
+					throw new NoSuchElementException("alternateEvenoOdd: no more elements");
 
-				return element;
-
+				Integer tmp = element;
+				element = null;
+				return tmp;
 			}
 
 			@Override
 			public void remove() {
-
 				throw new UnsupportedOperationException("alternateEvenoOdd: remove not supported");
 			}
 		};
-		return aux;
 	}
 
 	private static boolean test(int elem, int previous) {
