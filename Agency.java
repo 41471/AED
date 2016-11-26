@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 
 public class Agency {
+
+    public static int EMPLOYEES;
     public static Command[] cmdList = {
             new NewCostumer(),
             new RemoveCostumer(),
@@ -21,18 +23,22 @@ public class Agency {
     public static void init(){
         priorityQueue.pq = new PriorityQueue.StructEP[2];
     }
-    public static void resize() {
+//    public static void resize() {
+//
+//        PriorityQueue.StructEP[] aux = new PriorityQueue.StructEP[priorityQueue.pq.length*2];
+//        for (int i = 1; i < priorityQueue.pq.length; i++) {
+//            if(priorityQueue.pq[i]!=null) {
+//                aux[i]= priorityQueue.pq[i];
+//            }
+//        }
+//        priorityQueue.pq=aux;
+//    }
 
-        PriorityQueue.StructEP[] aux = new PriorityQueue.StructEP[priorityQueue.pq.length*2];
-        for (int i = 1; i < priorityQueue.pq.length; i++) {
-            if(priorityQueue.pq[i]!=null) {
-                aux[i]= priorityQueue.pq[i];
-            }
-        }
-        priorityQueue.pq=aux;
-    }
-    
+
+
     public static void main(String[] args) {
+        EMPLOYEES=Integer.parseInt(args[0]);
+        System.out.println(EMPLOYEES);
         init();
         String cmd = "";
         String [] cmdArgs = new String[cmdList.length];
