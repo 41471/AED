@@ -10,8 +10,9 @@ import java.util.Scanner;
 public class Agency {
 
     public static int EMPLOYEES;
+    public static int[] aEmplyees;
     public static Command[] cmdList = {
-            new NewCostumer(),
+            new NewCustomer(),
             new RemoveCostumer(),
             new RemoveNextCostumer(),
             new GetNextCostumer(),
@@ -20,12 +21,10 @@ public class Agency {
             new Help(),
             new Exit()};
     public static PriorityQueue priorityQueue = new PriorityQueue();
-    public static void init(){
-        priorityQueue.pq = new PriorityQueue.StructEP[2];
-    }
+
 //    public static void resize() {
 //
-//        PriorityQueue.StructEP[] aux = new PriorityQueue.StructEP[priorityQueue.pq.length*2];
+//        PriorityQueue.Customer[] aux = new PriorityQueue.Customer[priorityQueue.pq.length*2];
 //        for (int i = 1; i < priorityQueue.pq.length; i++) {
 //            if(priorityQueue.pq[i]!=null) {
 //                aux[i]= priorityQueue.pq[i];
@@ -39,7 +38,7 @@ public class Agency {
     public static void main(String[] args) {
         EMPLOYEES=Integer.parseInt(args[0]);
         System.out.println(EMPLOYEES);
-        init();
+        priorityQueue.init();
         String cmd = "";
         String [] cmdArgs = new String[cmdList.length];
         new Help().execute(cmdArgs);
