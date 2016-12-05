@@ -160,7 +160,6 @@ public class PriorityQueue<E,P extends Comparable<P>>  {
         // Sort using exchange and heapify operations
         while (n > 0) {
             // Exchange root (the maximum) with the last element
-            exch(pq, 0, n-1);
             // Max-heapify the first element (the new root), putting it to order
             maxHeapify(aux,1,--n);
         }

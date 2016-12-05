@@ -27,8 +27,9 @@ public class WaitingTime implements Command {
 
 
         Agency.priorityQueue.heapSort();
-        for (int i = 1; Agency.priorityQueue.aux[i].key!=key ; i++) {
-            Agency.aEmplyees[min()]+=Agency.priorityQueue.prioToInt(Agency.priorityQueue.aux[i].prio);
+        for (int i = 1; /*Agency.priorityQueue.aux[i].key!=key*/i<Agency.priorityQueue.aux.length; ++i) {
+            if(Agency.priorityQueue.less(Agency.priorityQueue.aux[i],Agency.priorityQueue.aux[Agency.priorityQueue.hashTables.get(key)]))
+                Agency.aEmplyees[min()]+=Agency.priorityQueue.prioToInt(Agency.priorityQueue.aux[i].prio);
         }
 //        for (int i = 1; i < Agency.priorityQueue.size; i++) {
 //            if (Agency.priorityQueue.pq[i] != Agency.priorityQueue.pq[key])
