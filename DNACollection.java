@@ -8,69 +8,84 @@ import series.serie2.Node;
 public class DNACollection<E> {
 
 
-    public Node<E>[] str;
-    public static  int[] countArray;
+    public NodeT root = new NodeT();
     public static final int NUM_OF_CHARS=4;
+    public static int[] count = new int[NUM_OF_CHARS];
 
     public static void main(String[] args) {
         DNACollection dna = new DNACollection();
-        dna.add("ATTT");
-        dna.add("TAAA");
-        dna.add("CGGG");
-        dna.add("GCCC");
-        dna.add("AGGG");
-        System.out.println(dna.prefixCount("A"));
-        System.out.println(dna.prefixCount("C"));
-        System.out.println(dna.prefixCount("T"));
-        System.out.println(dna.prefixCount("G"));
+        dna.add("TCA");
+        dna.add("TGT");
+
+        dna.add("ACCAG");
+        dna.add("ACCAGCC");
+        System.out.println(dna.countPre(dna.root));
+
+        System.out.println(dna.prefixCount("AC"));
 
     }
 
 
-    public <E> DNACollection(){
-        str = new Node[NUM_OF_CHARS];   // A=0, C=1, T=2, G=3
-        initNode(str);
-        countArray= new int[NUM_OF_CHARS];
-    }
 
-    private void initNode(Node<E>[] str) {
-        for (int i = 0; i < str.length; i++) {
-            str[i] = new Node<>();
-        }
-    }
 
     public void add(String fragment){
-        if(fragment.charAt(0)=='A'){
-            str[0].add((Node<E>) new Node(fragment));
-            countArray[0]++;
+
+        int c;
+        NodeT newroot = root;
+        for (int i = 0; i < fragment.length(); i++) {
+            c=getIdx(fragment.charAt(i));
+
+            if(c<0){
+                break;
+            }
+            if(newroot.nodeArray[c]==null) {
+                if (i == fragment.length() - 1) {
+                    newroot.nodeArray[c] = new NodeT(fragment.charAt(i), true, 0);
+                } else
+                    newroot.nodeArray[c] = new NodeT(fragment.charAt(i), false, 0);
+
+            }
+            newroot = newroot.nodeArray[c];
         }
-        if(fragment.charAt(0)=='C') {
-            str[1].add((Node<E>) new Node(fragment));
-            countArray[1]++;
-        }
-        if(fragment.charAt(0)=='T') {
-            str[2].add((Node<E>) new Node(fragment));
-            countArray[2]++;
-        }
-        if(fragment.charAt(0)=='G') {
-            str[3].add((Node<E>) new Node(fragment));
-            countArray[3]++;
+        count[getIdx(fragment.charAt(0))]++;
+    }
+
+
+    public int getIdx(char c){
+        switch(c){
+            case 'A':return 0;
+            case 'C':return 1;
+            case 'T':return 2;
+            case 'G':return 3;
+            default: return -1;
         }
     }
 
     public int prefixCount(String p){
-        switch (p){
-            case "A":
-                return countArray[0];
-            case "C":
-                return countArray[1];
-            case "T":
-                return countArray[2];
-            case "G":
-                return countArray[3];
-            default:
-                return -1;
+        int c;
+        NodeT newroot = root;
+        for (int i = 0; i < p.length(); i++) {
+            c=getIdx(p.charAt(i));
+
+            if(c<0){
+                break;
+            }
+
+            newroot = newroot.nodeArray[c];
         }
+        return countPre(newroot);
+    }
+
+
+    public int countPre(NodeT node){
+
+        if(node==null) return 0;
+        int count = 0;
+        if(node.isLeaf) count++;
+        for (int i = 0; i < NUM_OF_CHARS; i++) {
+            count+=countPre(node.nodeArray[i]);
+        }
+        return count;
     }
 
 }
