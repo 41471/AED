@@ -2,41 +2,18 @@ package series.serie3;
 
 import series.serie2.Node;
 
-import java.util.Comparator;
 import java.security.InvalidParameterException;
-/**
- * Created by Pedro on 09/12/2016.
- */
+import java.util.Comparator;
+
 public class TreeUtils {
 
-    public static void main(String[] args) {
-        Node n1 = new Node(100);
-        Node n2 = new Node(90);
-        Node n3 = new Node(200);
-        Node n4 = new Node(80);
-        Node n5 = new Node(95);
-        Node n6 = new Node(150);
-        Node n7 = new Node(400);
-        n1.previous=n2;
-        n1.next=n3;
-        n2.previous=n4;
-        n2.next=n5;
-        n3.previous=n6;
-        n3.next=n7;
-        Comparator<Integer> CMP_NATURAL_ORDER = new Comparator<Integer>() {
-            public int compare(Integer i1, Integer i2) {
-                return i1.compareTo(i2);
-            }
-        };
-
-        //System.out.println(contains(n1,50,79,CMP_NATURAL_ORDER));
-        System.out.println(isBST(n1,CMP_NATURAL_ORDER));
-    }
+    static Node<Integer> aux;
     public static boolean bool = false;
 
-    public static <E> boolean contains(Node<E> root, E min, E max, Comparator<E> cmp){
+    public static <E> boolean contains(Node<E> root, E min, E max, Comparator<E> cmp) {
 
-
+        if (root == null)
+            return false;
         if(cmp.compare(root.value,min)>= 0 && (cmp.compare(root.value,max))<= 0) {
             return true;
         }
@@ -46,11 +23,12 @@ public class TreeUtils {
         else if(root.next!=null)
             bool=contains(root.next,min,max,cmp);
 
-       return bool;
+        return bool;
     }
 
-    public static Node<Integer> createBSTFromRange(int start, int end){
-        if (end > start)
+    public static Node<Integer> createBSTFromRange(int start, int end) {
+
+        if (end < start)
             throw new InvalidParameterException();
         int mid = (start + end) / 2;
 
@@ -64,8 +42,10 @@ public class TreeUtils {
         return midNode;
     }
 
-    public static <E> boolean isBST(Node<E> root, Comparator<E> cmp){
+    public static <E> boolean isBST(Node<E> root, Comparator<E> cmp) {
 
+        if (root == null)
+            return false;
         if(root.previous==null && root.next==null)
             return true;
 
@@ -83,10 +63,10 @@ public class TreeUtils {
 
         return bool;
     }
-    
-   //main do 1.2 
+
+
     public static void main(String[] args) {
-        aux = createBSTFromRange(-5,5);
+        aux = createBSTFromRange(-100,100);
         print();
     }
 

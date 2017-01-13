@@ -1,10 +1,5 @@
 package series.serie3;
 
-import series.serie2.Node;
-
-/**
- * Created by Pedro on 09/12/2016.
- */
 public class DNACollection<E> {
 
 
@@ -24,9 +19,6 @@ public class DNACollection<E> {
         System.out.println(dna.prefixCount("AC"));
 
     }
-
-
-
 
     public void add(String fragment){
 
